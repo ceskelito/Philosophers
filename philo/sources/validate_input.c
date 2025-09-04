@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:39:58 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/03 18:06:20 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/04 17:55:05 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_atoi(const char *str)
 	return (nb * sign);
 }
 
-static int check_value(int ac, int arg[])
+static int check_value(int ac, int *arg)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ static int check_value(int ac, int arg[])
 	return (0);
 }
 
-static int atoi_input(int ac, char **av, int *arg[])
+static int atoi_input(int ac, char **av, int *arg)
 {
 	int	i;
 	int	j;
@@ -77,21 +77,20 @@ static int atoi_input(int ac, char **av, int *arg[])
 				return (-1);
 			j++;
 		}
-		(*arg)[i] = ft_atoi(av[i]);
+#include <stdio.h>
+		printf("Value: %i \n", ft_atoi(av[i])); //DEBUG
+		arg[i] = ft_atoi(av[i]);
 		i++;
 	}
 	return (0);
 }
 
-bool	validate_input(int ac, char **av, int *(arg[]))
+bool	input_is_valid(int ac, char **av, int *arg)
 {
 	ac -= 1;
 	av += 1;
-	if (ac != 4 && ac != 5)
-		return (false);
-	if (atoi_input(ac, av, arg) != 0)
-		return (false);
-	if (check_value(ac, *arg) != 0)
-		return (false);
-	return (true);
+	return (
+		(ac == 4 || ac == 5) &&
+		(atoi_input(ac, av, arg) == 0) &&
+		(check_value(ac, arg) == 0));
 }
