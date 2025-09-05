@@ -26,8 +26,7 @@ int	main(int ac, char **av)
 		return (cantalloc_clean(), -1);
 	if (!input_is_valid(ac, av, args))
 		return (cantalloc_clean(), -1);
-	if (!initialize_program(&program, philos)
-		|| !initialize_forks(forks, args))
+	if (!initialize_program(&program, philos) || !initialize_forks(forks, args))
 		return (cantalloc_clean(), -1);
 	initialize_philos(program, philos, forks, args);
 	cantalloc_clean();
