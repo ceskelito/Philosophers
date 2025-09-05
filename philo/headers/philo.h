@@ -6,7 +6,7 @@
 /*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 12:06:47 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/05 16:49:23 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/05 18:35:53 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -27,12 +27,14 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <pthread.h>
+#include <sys/time.h>
 # include "cantalloc.h"
 
 /* Notice:
- * In the code can be found verbouses assignements like "i = 0 - 1".
- * This is made to optimize the line count of all the cicles:
- * the counter increments inside the condition, before being evalueted. 
+ * Verbose assignments like "i = 0 - 1" can be found in the code.
+ * This is done to reduce the number of lines in all cycles:
+ * the counter is incremented inside the condition, before it is evaluated.
+ */
 
 typedef enum e_args {
 	num_of_philos,
@@ -48,11 +50,11 @@ typedef struct s_philo
 	int				id;
 	int				eating;
 	int				meals_eaten;
-	size_t			last_meal;
-	size_t			time_to_die;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
-	size_t			start_time;
+	unsigned long			last_meal;
+	unsigned long			time_to_die;
+	unsigned long			time_to_eat;
+	unsigned long			time_to_sleep;
+	unsigned long			start_time;
 	int				num_of_philos;
 	int				meals_to_eat;
 	int				*dead;
@@ -72,7 +74,16 @@ typedef struct s_program
 	t_philo			*philos;
 }					t_program;
 
+// Inizialization
 bool	input_is_valid(int ac, char **av, int *arg);
-bool	initialize_program(t_program *program, t_philo *philo, int *arg);
+bool	initialize_program(t_program *program, t_philo *philo);
+bool	initialize_forks(pthread_mutex_t *forks, int *args);
+void	initialize_philos(t_program program, t_philo *philos,
+		pthread_mutex_t *forks, int *arg);
+
+// Utils - Threads
+
+// Utils - Global
+unsigned long	get_current_time(void);
 
 #endif

@@ -1,21 +1,25 @@
 NAME	= philo
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -Iheaders -Icantalloc -g
+CFLAGS	= -Wall -Wextra -Werror -Iheaders -g
 RM		= rm -f
+MKDIR	= mkdir -p
 
-SRCS_NAMES = main.c validate_input.c initialize_program.c
+SRCS_DIR = sources
+OBJS_DIR = objs
 
-SRCS = $(addprefix sources/, $(SRCS_NAMES)) cantalloc/cantalloc.c
+FILES_NAME = main input_validation initialization utils cantalloc
 
-OBJS = $(SRCS:.c=.o)
+SRCS	= $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(FILES_NAME)))
+OBJS	= $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(FILES_NAME)))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	$(MKDIR) $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -25,3 +29,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
