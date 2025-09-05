@@ -6,30 +6,28 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:12:35 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/04 18:50:14 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:02:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-#define CLEANUP __attribute__(cleanup(clean_memory))
-
-static int	error(void)
-{
-	cantalloc_clean();
-	return (-1);
-}
-
 int	main(int ac, char **av)
 {
-	int			arg[5];
-	t_program	program;
-	t_philo		philo;
+	int				args[5];
+	t_program		program;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
 
-	if (!input_is_valid(ac, av, arg))
-		return (error());
-	if (!initialize_program(&program, &philo, arg))
-		return (error());
+	philos = cantalloc(sizeof(t_philo) * args[num_of_philos]);
+	if (!philos)
+		return (cantalloc_clean(), -1);
+	if (!input_is_valid(ac, av, args))
+		return (cantalloc_clean(), -1);
+	if (!initialize_program(&program, philos)
+		|| !initialize_forks(forks, args))
+		return (cantalloc_clean(), -1);
+	initialize_philos(philos, args);
 	cantalloc_clean();
 	return (0);
 }

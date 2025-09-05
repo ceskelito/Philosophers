@@ -1,40 +1,69 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize_program.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 12:06:40 by rceschel          #+#    #+#             */
+/*   Updated: 2025/09/05 16:41:39 by rceschel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static bool	initialize_philo(t_philo *philo)
+static void	set_parameters(t_philo philo, int *args)
 {
-	philo->r_fork = cantalloc(sizeof(pthread_mutex_t));
-	if (!philo->r_fork)
-		return (false);
-	philo->l_fork = cantalloc(sizeof(pthread_mutex_t));
-	if (!philo->l_fork)
-		return (false);
-	philo->write_lock = cantalloc(sizeof(pthread_mutex_t));
-	if (!philo->write_lock)
-		return (false);
-	philo->dead_lock = cantalloc(sizeof(pthread_mutex_t));
-	if (!philo->dead_lock)
-		return (false);
-	philo->meal_lock = cantalloc(sizeof(pthread_mutex_t));
-	if (!philo->meal_lock)
-		return (false);
-	pthread_mutex_init(philo->r_fork, NULL);
-	pthread_mutex_init(philo->l_fork, NULL);
-	pthread_mutex_init(philo->write_lock, NULL);
-	pthread_mutex_init(philo->dead_lock, NULL);
-	pthread_mutex_init(philo->meal_lock, NULL);
+	philo.time_to_die = args[time_to_die];
+	philo.time_to_eat = args[time_to_eat];
+	philo.time_to_sleep = args[time_to_sleep];
+	philo.num_of_philos = args[num_of_philos];
+	philo.meals_to_eat = args[meals_to_eat];
+}
+
+void	initialize_philos(t_program program, t_philo *philos, int *args)
+{
+	int	id;
+
+	id = 1 - 1;
+	while (++id < args[num_of_philos])
+	{
+		philos[id].id = id;
+		philos[id].eating = 0;
+		philos[id].meals_eaten = 0;
+		philos[id].last_meal = get_current_time();
+		philos[id].start_time = get_current_time();
+		philos[id].dead = &program.dead_flag;
+		philos[id].write_lock = &program.write_lock;
+		philos[id].dead_lock = &program.dead_lock;
+		philos[id].meal_lock = &program.meal_lock;
+		philos[id].r_fork = forks[i];
+		if (id == 0)
+			philos[id].l_fork = forks[program.num_of_philos - 1];
+		else
+			philos[id].l_fork = forks[i - 1];
+		set_parameters(philos[id], args);
+	}
+}
+
+bool	initialize_forks(pthread_mutex_t forks, int *args)
+{
+	int	i;
+
+	i = 0 - 1;
+	while (++i < args[num_of_philos])
+		if (!pthread_mutex_init(forks[i], NULL))
+			return (false);
 	return (true);
 }
 
-bool initialize_program(t_program *program, t_philo *philo, int *arg)
+bool	initialize_program(t_program *program, t_philo *philos)
 {
-	program->philos = cantalloc(sizeof(t_philo *));
-	if (!program->philos)
-		return (false);
-	program->philos = philo;
-	program->num_of_philos = arg[num_of_philos];
-	program->time_to_die = arg[time_to_die];
-	program->time_to_eat = arg[time_to_eat];
-	program->time_to_sleep = arg[time_to_sleep];
-	program->meals_to_eat = arg[meals_to_eat];
-	return (initialize_philo(philo));
+	program->dead_lock = 0;
+	program->philos = philos;
+	return (
+		pthread_mutex_init(&program->dead_lock, NULL) != 0
+		|| pthread_mutex_init(&program->meal_lock, NULL) != 0
+		|| pthread_mutex_init(&program->write_lock, NULL) != 0
+	)
 }
