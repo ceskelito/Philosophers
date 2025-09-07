@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ceskelito <ceskelito@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 12:06:47 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/05 18:35:53 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/07 16:38:04 by ceskelito        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
@@ -80,6 +80,9 @@ bool	initialize_program(t_program *program, t_philo *philo);
 bool	initialize_forks(pthread_mutex_t *forks, int *args);
 void	initialize_philos(t_program program, t_philo *philos,
 		pthread_mutex_t *forks, int *arg);
+
+// Routine
+void	*routine(void *philo);
 
 // Utils - Threads
 

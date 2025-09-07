@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_program.c                               :+:      :+:    :+:   */
+/*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ceskelito <ceskelito@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 12:06:40 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/05 19:00:22 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/07 16:32:10 by ceskelito        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// Fill attributes with the input parameters
 static void	set_parameters(t_philo *philo, int *args)
 {
 	philo->time_to_die = args[time_to_die];
@@ -21,6 +22,7 @@ static void	set_parameters(t_philo *philo, int *args)
 	philo->meals_to_eat = args[meals_to_eat];
 }
 
+// Set the initial value of the philos attributes
 void	initialize_philos(t_program program, t_philo *philos,
 		pthread_mutex_t *forks, int *args)
 {
@@ -47,22 +49,25 @@ void	initialize_philos(t_program program, t_philo *philos,
 	}
 }
 
+// Initialize forks mutexes
 bool	initialize_forks(pthread_mutex_t *forks, int *args)
 {
 	int	i;
 
 	i = 0 - 1;
 	while (++i < args[num_of_philos])
-		if (!pthread_mutex_init(&forks[i], NULL))
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
 			return (false);
 	return (true);
 }
 
+// Set the initial value of program attributes.
+// Inizialize dead/meal/write locks mutexes
 bool	initialize_program(t_program *program, t_philo *philos)
 {
 	program->dead_flag = 0;
 	program->philos = philos;
-	return (pthread_mutex_init(&program->dead_lock, NULL) != 0
-		|| pthread_mutex_init(&program->meal_lock, NULL) != 0
-		|| pthread_mutex_init(&program->write_lock, NULL) != 0);
+	return (pthread_mutex_init(&program->dead_lock, NULL) == 0
+		&& pthread_mutex_init(&program->meal_lock, NULL) == 0
+		&& pthread_mutex_init(&program->write_lock, NULL) == 0);
 }
