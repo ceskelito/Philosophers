@@ -29,7 +29,7 @@ void	initialize_philos(t_program program, t_philo *philos,
 	int	id;
 
 	id = 1 - 1;
-	while (++id < args[num_of_philos])
+	while (++id <= args[num_of_philos])
 	{
 		philos[id].id = id;
 		philos[id].eating = 0;
@@ -38,11 +38,12 @@ void	initialize_philos(t_program program, t_philo *philos,
 		philos[id].start_time = get_current_time();
 		philos[id].dead = &program.dead_flag;
 		philos[id].write_lock = &program.write_lock;
+		write(1, "a\n", 2);
 		philos[id].dead_lock = &program.dead_lock;
 		philos[id].meal_lock = &program.meal_lock;
 		philos[id].r_fork = &forks[id];
-		if (id == 0)
-			philos[id].r_fork = &forks[philos->num_of_philos - 1];
+		if (id == 1){write(1,"hgghhghg",6);
+			philos[id].r_fork = &forks[philos->num_of_philos];}
 		else
 			philos[id].l_fork = &forks[id - 1];
 		set_parameters(&philos[id], args);

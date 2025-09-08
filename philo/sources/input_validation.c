@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:39:58 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/08 12:12:22 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:26:13 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,10 @@ static int	check_value(int ac, int *arg)
 {
 	int	i;
 
-	i = 0;
-	while (i < ac)
-	{
+	i = 0 - 1;
+	while (++i < ac)
 		if (arg[i] < 0 || (arg[i] == 0 && (i + 1) != 5))
 			return (-1);
-		i++;
-	}
 	return (0);
 }
 

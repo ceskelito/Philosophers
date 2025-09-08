@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 12:06:47 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/08 17:13:58 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:59:23 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct	s_philo
 	unsigned long			start_time;
 	int						num_of_philos;
 	int						meals_to_eat;
-	int						*dead;
+	_Atomic int				*dead;
 	pthread_mutex_t			*r_fork;
 	pthread_mutex_t			*l_fork;
 	pthread_mutex_t			*write_lock;
