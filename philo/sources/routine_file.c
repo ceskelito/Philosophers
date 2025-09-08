@@ -11,34 +11,39 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <unistd.h>
 
-static void	print_message(unsigned long time, int id, char *message)
+void	philo_think(t_philo *philo)
 {
-
-		printf("%lu %i %s\n", time, id, message);
+	print_message(get_current_time(), philo, "is thinking");
 }
 
-void *routine(void *pointer)
+void	philo_eat(t_philo *philo)
 {
-	unsigned long	curtime;
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(philo->meal_lock);
+	print_message(get_current_time(), philo, "is eating");
+	pthread_mutex_unlock(philo->meal_lock);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+}
+
+void	philo_sleep(t_philo *philo)
+{
+	print_message(get_current_time(), philo, "is sleeping");
+	usleep(philo->time_to_sleep);
+}
+
+void	*routine(void *pointer)
+{
 	t_philo			*philo;
 
 	philo = (t_philo *) pointer;
+	print_message(get_current_time(), philo, "start routine"); //DEBUG
 	while(1)
 	{
-		curtime = get_current_time();
-		if (*philo->dead == 1 || philo->meals_eaten == philo->meals_to_eat)
-			return (NULL);
-		if (curtime - philo->last_meal >= philo->time_to_die)
-		{
-			pthread_mutex_lock(philo->write_lock);
-			print_message(curtime, philo->id, "died");
-			pthread_mutex_unlock(philo->write_lock);
-			pthread_mutex_lock(philo->dead_lock);
-			*philo->dead = 1;
-			pthread_mutex_unlock(philo->dead_lock);
-			return (NULL);
-		}
+		philo_think(philo);
+		philo_eat(philo);
+		philo_sleep(philo);
 	}
 }

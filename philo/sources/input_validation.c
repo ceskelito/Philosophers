@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:39:58 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/05 19:05:53 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/08 12:12:22 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	ft_atoi(const char *str)
 	return (nb * sign);
 }
 
+// Check the value of the input parameters
 static int	check_value(int ac, int *arg)
 {
 	int	i;
@@ -62,6 +63,7 @@ static int	check_value(int ac, int *arg)
 	return (0);
 }
 
+// Convert input parameters as integers
 static int	atoi_input(int ac, char **av, int *arg)
 {
 	int	i;
@@ -83,6 +85,7 @@ static int	atoi_input(int ac, char **av, int *arg)
 	return (0);
 }
 
+// Validates the input parameters, saves their values in an array
 bool	input_is_valid(int ac, char **av, int *arg)
 {
 	ac -= 1;
