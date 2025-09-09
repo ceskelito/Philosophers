@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:12:35 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/08 16:31:17 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:06:32 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(int ac, char **av)
 	args[0] = 0;
 	if (!input_is_valid(ac, av, args))
 		return (cantalloc_clean(), -1);
-	philos = cantalloc(sizeof(t_philo) * args[num_of_philos]);
-	forks = cantalloc(sizeof(pthread_mutex_t) * args[num_of_philos]);
+	philos = ccantalloc(sizeof(t_philo), args[num_of_philos]);
+	forks = ccantalloc(sizeof(pthread_mutex_t), args[num_of_philos]);
 	if (!philos || !forks)
 		return (cantalloc_clean(), -1);
 	if (!initialize_program(&program, philos) || !initialize_forks(forks, args))

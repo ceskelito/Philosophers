@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cantalloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 19:09:02 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/05 19:04:01 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:05:57 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,27 +69,27 @@ static void	*cantalloc_handler(size_t size, int mode)
 	return (NULL);
 }
 
-void	*cantalloc(size_t size)
+/* void	*cantalloc(size_t size)
 {
 	return (cantalloc_handler(size, NEW));
-}
+} */
 
-//void	*ccantalloc(size_t size, size_t count)
-//{
-//	char	*new_ptr;
-//	size_t	i;
-//
-//	new_ptr = cantalloc_handler(size * count, NEW);
-//	if (!new_ptr)
-//		return (NULL);
-//	i = 0;
-//	while (i < size * count)
-//	{
-//		new_ptr[i] = 0;
-//		++i;
-//	}
-//	return ((void *)new_ptr);
-//}
+void	*ccantalloc(size_t size, size_t count)
+{
+	char	*new_ptr;
+	size_t	i;
+
+	new_ptr = cantalloc_handler(size * count, NEW);
+	if (!new_ptr)
+		return (NULL);
+	i = 0;
+	while (i < size * count)
+	{
+		new_ptr[i] = 0;
+		++i;
+	}
+	return ((void *)new_ptr);
+}
 
 void	cantalloc_clean(void)
 {

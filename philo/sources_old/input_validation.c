@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_input.c                                   :+:      :+:    :+:   */
+/*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:39:58 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/08 17:26:13 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:05:16 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ static int	check_value(int ac, int *arg)
 {
 	int	i;
 
-	i = 0 - 1;
-	while (++i < ac)
-		if (arg[i] < 0 || (arg[i] == 0 && (i + 1) != 5))
+	i = 0;
+	while (i < ac)
+	{
+		if (arg[i] < 0 || (arg[i] == 0 && i != 4))
 			return (-1);
+		i++;
+	}
 	return (0);
 }
 
@@ -87,6 +90,9 @@ bool	input_is_valid(int ac, char **av, int *arg)
 {
 	ac -= 1;
 	av += 1;
-	return ((ac == 4 || ac == 5) && (atoi_input(ac, av, arg) == 0)
-		&& (check_value(ac, arg) == 0));
+	return (
+		(ac == 4 || ac == 5)
+		&& (atoi_input(ac, av, arg) == 0)
+		&& (check_value(ac, arg) == 0)
+	);
 }

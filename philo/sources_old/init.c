@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceskelito <ceskelito@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 12:06:40 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/07 16:32:10 by ceskelito        ###   ########.fr       */
+/*   Updated: 2025/09/09 11:08:23 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,28 @@ static void	set_parameters(t_philo *philo, int *args)
 void	initialize_philos(t_program program, t_philo *philos,
 		pthread_mutex_t *forks, int *args)
 {
-	int	id;
+	int	i;
 
-	id = 1 - 1;
-	while (++id <= args[num_of_philos])
+	i = 0;
+	while (i < args[num_of_philos])
 	{
-		philos[id].id = id;
-		philos[id].eating = 0;
-		philos[id].meals_eaten = 0;
-		philos[id].last_meal = get_current_time();
-		philos[id].start_time = get_current_time();
-		philos[id].dead = &program.dead_flag;
-		philos[id].write_lock = &program.write_lock;
+		philos[i].id = i + 1;
+		philos[i].eating = 0;
+		philos[i].meals_eaten = 0;
+		philos[i].last_meal = get_current_time();
+		philos[i].start_time = get_current_time();
+		philos[i].dead = &program.dead_flag;
+		philos[i].write_lock = &program.write_lock;
 		write(1, "a\n", 2);
-		philos[id].dead_lock = &program.dead_lock;
-		philos[id].meal_lock = &program.meal_lock;
-		philos[id].r_fork = &forks[id];
-		if (id == 1){write(1,"hgghhghg",6);
-			philos[id].r_fork = &forks[philos->num_of_philos];}
+		philos[i].dead_lock = &program.dead_lock;
+		philos[i].meal_lock = &program.meal_lock;
+		philos[i].r_fork = &forks[i];
+		if (i == 0)
+			philos[i].r_fork = &forks[philos->num_of_philos - 1];
 		else
-			philos[id].l_fork = &forks[id - 1];
-		set_parameters(&philos[id], args);
+			philos[i].l_fork = &forks[i - 1];
+		set_parameters(&philos[i], args);
+		i++;
 	}
 }
 
@@ -55,10 +56,13 @@ bool	initialize_forks(pthread_mutex_t *forks, int *args)
 {
 	int	i;
 
-	i = 0 - 1;
-	while (++i < args[num_of_philos])
+	i = 0;
+	while (i < args[num_of_philos])
+	{
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 			return (false);
+		i++;
+	}
 	return (true);
 }
 

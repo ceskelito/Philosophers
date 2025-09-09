@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceskelito <ceskelito@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 17:11:01 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/07 16:37:55 by ceskelito        ###   ########.fr       */
+/*   Updated: 2025/09/09 12:02:14 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void	*routine(void *pointer)
 		philo_eat(philo);
 		philo_sleep(philo);
 	}
+	return (NULL);
 }
