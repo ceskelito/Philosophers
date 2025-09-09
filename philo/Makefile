@@ -8,7 +8,7 @@ MKDIR	= mkdir -p
 SRCS_DIR = sources
 OBJS_DIR = objs
 
-FILES_NAME = main input_validation init utils cantalloc \
+FILES_NAME = main input init utils #cantalloc \
 			routine_file threads
 
 SRCS	= $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(FILES_NAME)))

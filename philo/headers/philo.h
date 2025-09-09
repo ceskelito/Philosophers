@@ -6,7 +6,7 @@
 /*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:40:32 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 14:51:53 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:05:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,27 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include "cantalloc.h"
+# include <stdlib.h>
+//# include "cantalloc.h"
+
+# define MAX_ARGS 5
+
+typedef unsigned long ulong;
 
 typedef enum e_args {
-e_num_of_philos,
+	e_num_of_philos,
 	e_time_to_die,
 	e_time_to_eat,
 	e_time_to_sleep,
 	e_meals_to_eat
 } t_args;
 
-typedef struct	s_rules 
-{
-	const unsigned long			time_to_die;
-	const unsigned long			time_to_eat;
-	const unsigned long			time_to_sleep;
-	const unsigned long			start_time;
-	const int					num_of_philos;
-	const int					meals_to_eat;
-}	t_rules;
-
 typedef struct	s_philo
 {
 	pthread_t				thread;
-	t_rules					*rules;
-	const int				id;
+	int						id;
+	unsigned long			rules[MAX_ARGS];
+	unsigned long			start_time;
 	_Atomic int				eating;
 	_Atomic unsigned long	last_meal;
 	_Atomic int				meals_eaten;
@@ -56,7 +52,7 @@ typedef struct	s_philo
 	
 typedef struct s_program
 {
-	t_rules			*rules;
+	unsigned long	rules[MAX_ARGS];
 	_Atomic int		dead_flag;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
@@ -65,4 +61,14 @@ typedef struct s_program
 }					t_program;
 
 
+// Input
+bool	input_is_valid(int argc, char **argv, unsigned long *rules);
+
+// Init
+bool	initialize_program(t_program *program, t_philo *philos);
+bool	initialize_forks(pthread_mutex_t *forks, unsigned long *rules);
+void	initialize_philos(t_program *program, t_philo *philos, pthread_mutex_t *forks);
+
+// Utils
+unsigned long	get_current_time(void);
 #endif
