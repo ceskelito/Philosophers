@@ -6,7 +6,7 @@
 /*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:00:13 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 16:51:06 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:30:04 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,8 @@ static void	philo_sleep(t_philo *philo)
 void	*routine(void *pointer)
 {
 	t_philo *philo = pointer;
-	while (1)
+	while (!is_someone_dead(philo))
 	{
-		pthread_mutex_lock(philo->dead_lock);
-		if (philo->dead)
-			return (pthread_mutex_unlock(philo->dead_lock), philo);
-		pthread_mutex_unlock(philo->dead_lock);
 		philo_think(philo);
 		philo_eat(philo);
 		philo_sleep(philo);

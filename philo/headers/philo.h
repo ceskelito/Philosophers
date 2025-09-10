@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:40:32 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 13:01:16 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:29:56 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void	initialize_philos(t_program *program, t_philo *philos, pthread_mutex_t *for
 t_time	get_current_time(void);
 void	ft_write(int fd, char *str);
 void	print_message(t_time time, t_philo *philo, char *message);
-
-
+int		is_someone_dead(t_philo *philos);
 
 // Threads
 void	*routine(void *pointer);
