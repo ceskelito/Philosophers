@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:22:11 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 12:49:05 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:00:28 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	check_values(int argc, long int *args)
 	i = 0;
 	while (i < argc)
 	{
-		if ((args[i] == 0) && (i != MAX_ARGS - 1))
+		if ((args[i] == 0) && (i != e_meals_to_eat))
 			return (-1);
 		i++;
 	}
@@ -81,6 +81,8 @@ bool	input_is_valid(int argc, char **argv, long int *rules)
 		rules[i] = philo_atoi(argv[i]);
 		i++;
 	}
+	if (argc != MAX_ARGS)
+		rules[e_meals_to_eat] = -1;
 	if (!check_values(argc, rules) == 0)
 		return (false);
 	return (true);

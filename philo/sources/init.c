@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 12:55:19 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:47:23 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	initialize_philos(t_program *program, t_philo *philos,
 		philos[i].meal_lock = &program->meal_lock;
 		philos[i].r_fork = &forks[i];
 		if (i == 0)
-			philos[i].r_fork = &forks[philos->num_of_philos - 1];
+			philos[i].l_fork = &forks[philos->num_of_philos - 1];
 		else
 			philos[i].l_fork = &forks[i - 1];
 		i++;

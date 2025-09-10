@@ -6,18 +6,11 @@
 /*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:37:51 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:59:47 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:48:21 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*routine(void *pointer)
-{
-	if(pointer)
-		return (NULL);
-	return (NULL);
-}
 
 void	thread_create(t_philo *philos)
 {

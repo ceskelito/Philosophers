@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:15:16 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 14:36:25 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 17:01:43 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv)
 	++argv;
 	if (!input_is_valid(argc, argv, program.rules))
 		return(-1);
-//	printf( "Rules:\n%lu\n%lu\n%lu\n%lu\n%lu\n",
+//	printf( "Rules:\n%li\n%li\n%li\n%li\n%li\n",
 //		program.rules[e_num_of_philos],
 //		program.rules[e_time_to_die],
 //		program.rules[e_time_to_eat],

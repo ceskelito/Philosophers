@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:59:27 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:52:59 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ static int	have_philos_ate(t_philo *philos)
 void	monitor(t_philo *philos)
 {
 	while(1)
-		if (is_someone_dead(philos) || have_philos_ate(philos) == true)
+		if (is_someone_dead(philos) || have_philos_ate(philos))
 			return ;
 }
