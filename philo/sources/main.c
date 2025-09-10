@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:15:16 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 12:49:39 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:36:25 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	//printf("n:%lu\n", program.rules[e_num_of_philos]);
 	//for (unsigned long i = 0; i < program.rules[e_num_of_philos]; i++)
 	//	printf("%i\n", philos[i].id);
+	thread_create(philos);
 	
 	return (free(forks), free(philos), 0);
 }

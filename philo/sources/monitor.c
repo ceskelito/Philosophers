@@ -6,12 +6,12 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 13:03:26 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:59:27 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
+#include <stdbool.h>
 // Check if a philo need to die for starving and set the dead_flag
 // The needed mutexes are locked before the function call
 static void	check_last_meal(t_philo *philos)
@@ -36,17 +36,12 @@ static void	check_last_meal(t_philo *philos)
 // Check the dead_flag after a call to check_last_meal()
 static int	is_someone_dead(t_philo *philos)
 {
-	int	dead;
-
-	dead = 0;
 	pthread_mutex_lock(philos->dead_lock);
 	pthread_mutex_lock(philos->meal_lock);
 	check_last_meal(philos);
-	if(*philos->dead)
-		dead = 1;
 	pthread_mutex_unlock(philos->dead_lock);
 	pthread_mutex_unlock(philos->meal_lock);
-	return (dead);
+	return (*philos->dead);
 }
 
 // Check if all philos have eaten meals_to_eat meals
@@ -55,24 +50,23 @@ static int	have_philos_ate(t_philo *philos)
 	int	i;
 
 	if (philos->meals_to_eat == -1)
-		return (0);
+		return (false);
 	i = 0;
-	while (i < philos->meals_to_eat)
+	while (i < philos->num_of_philos)
 	{
 		pthread_mutex_lock(philos->meal_lock);
 		if (philos[i].meals_eaten < philos->meals_to_eat)
-			return (0);
-		pthread_mutex_unlock(philos->meal_lock);
+			return (false);
+		pthread_mutex_unlock(philos->meal_lock);	
 		i++;
 	}
-	return (1);
+
+	return (true);
 }
 
 void	monitor(t_philo *philos)
 {
 	while(1)
-	{
-		if (is_someone_dead(philos) || have_philos_ate(philos))
-				return ;
-	}
+		if (is_someone_dead(philos) || have_philos_ate(philos) == true)
+			return ;
 }

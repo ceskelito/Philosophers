@@ -3,21 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 11:35:19 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 13:02:05 by rceschel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 11:14:40 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 11:32:30 by rceschel         ###   ########.fr       */
+/*   Created: 2025/09/10 14:37:51 by rceschel          #+#    #+#             */
+/*   Updated: 2025/09/10 15:59:47 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +37,9 @@ void	thread_create(t_philo *philos)
 		i++;
 	}
 	monitor(philos);
+		pthread_mutex_lock(philos->write_lock);
+		ft_write(1, "Monitor exited\n\0");
+		pthread_mutex_unlock(philos->write_lock);
 	i = 0;
 	while (i < philos->num_of_philos)
 	{
