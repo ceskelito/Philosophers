@@ -8,8 +8,7 @@ MKDIR	= mkdir -p
 SRCS_DIR = sources
 OBJS_DIR = objs
 
-FILES_NAME = main input init utils #cantalloc \
-			routine_file threads
+FILES_NAME = main input init utils threads monitor
 
 SRCS	= $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(FILES_NAME)))
 OBJS	= $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(FILES_NAME)))

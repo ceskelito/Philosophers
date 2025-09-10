@@ -3,41 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 18:14:29 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:55:19 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	set_rules(unsigned long *target, unsigned long *rules)
+static void	set_rules(t_philo *philo, long int *rules)
 {
-	int	i;
-
-	i = 0;
-	while (i < MAX_ARGS)
-	{
-		target[i] = rules[i];
-//		printf("target: %lu\nrule: %lu\n", target[i], rules[i]);
-		i++;
-	}
+	philo->num_of_philos = rules[e_num_of_philos];
+	philo->time_to_die = rules[e_time_to_die];
+	philo->time_to_eat = rules[e_time_to_eat];
+	philo->time_to_sleep = rules[e_time_to_sleep];
+	philo->meals_to_eat = rules[e_meals_to_eat];
 }
 
 void	initialize_philos(t_program *program, t_philo *philos,
 		pthread_mutex_t *forks)
 {
-	unsigned long	i;
+	long int	i;
 
 	i = 0;
 	while (i < program->rules[e_num_of_philos])
 	{
 		philos[i].id = i + 1;
-		set_rules(philos[i].rules, program->rules);
-//		printf("ID: %i\n", philos[i].id);
-//		for(int j = 0; j < MAX_ARGS; j++)
-//			printf("R n. %i: %lu\n", j, philos->rules[j]);
+		set_rules(&philos[i], program->rules);
 		philos[i].eating = 0;
 		philos[i].meals_eaten = 0;
 		philos[i].last_meal = get_current_time();
@@ -48,16 +41,16 @@ void	initialize_philos(t_program *program, t_philo *philos,
 		philos[i].meal_lock = &program->meal_lock;
 		philos[i].r_fork = &forks[i];
 		if (i == 0)
-			philos[i].r_fork = &forks[philos->rules[e_num_of_philos] - 1];
+			philos[i].r_fork = &forks[philos->num_of_philos - 1];
 		else
 			philos[i].l_fork = &forks[i - 1];
 		i++;
 	}
 }
 
-bool	initialize_forks(pthread_mutex_t *forks, unsigned long *rules)
+bool	initialize_forks(pthread_mutex_t *forks, long int *rules)
 {
-	unsigned long	i;
+	long int	i;
 
 	i = 0;
 	while (i < rules[e_num_of_philos])

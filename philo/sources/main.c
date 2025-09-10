@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:15:16 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 18:14:58 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:49:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int	main(int argc, char **argv)
 	//for (unsigned long i = 0; i < program.rules[e_num_of_philos]; i++)
 	//	printf("%i\n", philos[i].id);
 	
-	return (0);
+	return (free(forks), free(philos), 0);
 }

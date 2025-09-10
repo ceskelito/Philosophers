@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rceschel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:22:11 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 17:58:41 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:49:05 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	is_space(char c)
 	return (0);
 }
 
+// A smaller atoi, with the necessary only for this project
 static int	philo_atoi(const char *str)
 {
 	int	i;
@@ -41,7 +42,7 @@ static int	philo_atoi(const char *str)
 	{
 		if (!is_num(str[i]))
 		{
-			printf("Argument syntax error");
+			ft_write(2, "Argument syntax error\n\0");
 			return (-1);
 		}
 		num = (num * 10) + (str[i] - '0');
@@ -50,7 +51,7 @@ static int	philo_atoi(const char *str)
 }
 
 // Check the value of the input parameters
-static int	check_values(int argc, unsigned long *args)
+static int	check_values(int argc, long int *args)
 {	
 	int	i;
 
@@ -65,12 +66,15 @@ static int	check_values(int argc, unsigned long *args)
 }
 
 // Validates the input parameters, sargves their values in an array
-bool	input_is_valid(int argc, char **argv, unsigned long *rules)
+bool	input_is_valid(int argc, char **argv, long int *rules)
 {
 	int	i;
 
 	if (!(argc == MAX_ARGS || argc == MAX_ARGS - 1))
+	{
+		ft_write(2, "Wrong number of arguments\n\0");
 		return (false);
+	}
 	i = 0;
 	while (i < argc)
 	{

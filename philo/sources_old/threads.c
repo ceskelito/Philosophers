@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 12:14:08 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 12:48:18 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:52:17 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	*monitor(void *pointer)
 {
-	int				i;
-	t_philo			*philos;
-	unsigned long	curtime;
+	int		i;
+	t_philo	*philos;
+	t_time	curtime;
 
 	//philos = ccantalloc(sizeof(pointer), 1);
 	philos = (t_philo *)pointer;

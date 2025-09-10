@@ -6,30 +6,30 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:36:05 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/09 18:06:43 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:49:37 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//void	print_message(unsigned long time, t_philo *philo, char *message)
-//{
-//		pthread_mutex_lock(philo->write_lock);
-//		printf("%lu %i %s\n", time, philo->id, message);
-//		pthread_mutex_unlock(philo->write_lock);
-//}
-//
-//void	ft_write(int fd, char *str)
-//{
-//	int	len;
-//
-//	if(!str)
-//		return;
-//	len = 0 - 1;
-//	while(&str[++len])
-//		;
-//	write(fd, str, len);
-//}
+void	print_message(unsigned long time, t_philo *philo, char *message)
+{
+		pthread_mutex_lock(philo->write_lock);
+		printf("%lu %i %s\n", time, philo->id, message);
+		pthread_mutex_unlock(philo->write_lock);
+}
+
+void	ft_write(int fd, char *str)
+{
+	int	len;
+
+	if(!str)
+		return;
+	len = 0;
+	while(str[len] != '\0')
+		len++;
+	write(fd, str, len);
+}
 //
 //void	clean_resources(char *msg, t_program *program, pthread_mutex_t *forks)
 //{
@@ -49,7 +49,7 @@
 //	cantalloc_clean();
 //}
 
-unsigned long	get_current_time(void)
+t_time	get_current_time(void)
 {
 	struct timeval	tv;
 
