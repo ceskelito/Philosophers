@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:37:51 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/11 17:51:26 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 13:02:38 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void	thread_create(t_philo *philos)
 	while (i < philos->num_of_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
+		pthread_mutex_destroy(&philos[i].meal_lock);
 		i++;
 	}
+	pthread_mutex_destroy(philos->write_lock);
+	pthread_mutex_destroy(philos->dead_lock);
 }

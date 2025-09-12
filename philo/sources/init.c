@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 11:21:00 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:53:37 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	set_rules(t_philo *philo, long int *rules)
 //
 // Set the philo's ID, initalize the attributes, call set_rules(),
 // and point the pointers to the program's locks and forks mutexes
-void	initialize_philos(t_program *program, t_philo *philos,
+bool	initialize_philos(t_program *program, t_philo *philos,
 		pthread_mutex_t *forks)
 {
 	long int	i;
@@ -43,7 +43,8 @@ void	initialize_philos(t_program *program, t_philo *philos,
 		philos[i].dead = &program->dead_flag;
 		philos[i].write_lock = &program->write_lock;
 		philos[i].dead_lock = &program->dead_lock;
-		philos[i].meal_lock = &program->meal_lock;
+		if (pthread_mutex_init(&philos[i].meal_lock, NULL) != 0)
+			return (false);
 		philos[i].r_fork = &forks[i];
 		if (i == 0)
 			philos[i].l_fork = &forks[philos->num_of_philos - 1];
@@ -51,6 +52,7 @@ void	initialize_philos(t_program *program, t_philo *philos,
 			philos[i].l_fork = &forks[i - 1];
 		i++;
 	}
+	return (true);
 }
 
 // Initialize forks mutexes array
@@ -74,6 +76,5 @@ bool	initialize_program(t_program *program, t_philo *philos)
 	program->dead_flag = 0;
 	program->philos = philos;
 	return (pthread_mutex_init(&program->dead_lock, NULL) == 0
-		&&  pthread_mutex_init(&program->meal_lock, NULL) == 0
 		&& pthread_mutex_init(&program->write_lock, NULL) == 0);
 }
