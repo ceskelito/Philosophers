@@ -6,20 +6,19 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:40:32 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 18:29:56 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 12:17:13 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
-# include <stdbool.h>
-# include <pthread.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <stdlib.h>
-//# include "cantalloc.h"
+# include <stdio.h>		// printf()
+# include <stdbool.h>	// booleans
+# include <pthread.h>	// threads and mutexes
+# include <sys/time.h>	// gettimeofday()
+# include <unistd.h>	// write()
+# include <stdlib.h>	// malloc()
 
 # define MAX_ARGS 5
 
@@ -38,7 +37,6 @@ typedef struct	s_philo
 	pthread_t		thread;
 	int				id;
 	
-	//unsigned long	rules[MAX_ARGS];
 	int				num_of_philos;
 	t_time			time_to_die;
 	t_time			time_to_eat;
@@ -70,6 +68,7 @@ typedef struct s_program
 
 // Input
 bool	input_is_valid(int argc, char **argv, long int *rules);
+int	ft_usleep(size_t milliseconds);
 
 // Init
 bool	initialize_program(t_program *program, t_philo *philos);

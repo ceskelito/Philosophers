@@ -6,23 +6,22 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:36:05 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 18:29:29 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:49:37 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// Lock the writing mutex and print time, philo->id and the given message
-// followed by a new line
-void	print_message(unsigned long time, t_philo *philo, char *message)
+// Lock the writing mutex and print the log followed by a new line
+void	print_message(t_time time, t_philo *philo, char *message)
 {
-		pthread_mutex_lock(philo->write_lock);
+	pthread_mutex_lock(philo->write_lock);
+	if (!is_someone_dead(philo))
 		printf("%lu %i %s\n", time, philo->id, message);
-		pthread_mutex_unlock(philo->write_lock);
+	pthread_mutex_unlock(philo->write_lock);
 }
 
-// Simply the write function but with an argument less
-// The passed string needs to be null-terminated
+// write() which calculate the string len
 void	ft_write(int fd, char *str)
 {
 	int	len;
@@ -35,24 +34,6 @@ void	ft_write(int fd, char *str)
 	write(fd, str, len);
 }
 
-//void	clean_resources(char *msg, t_program *program, pthread_mutex_t *forks)
-//{
-//	int	i;
-//
-//
-//	pthread_mutex_lock(&program->write_lock);
-//	ft_write(2, msg);
-//	ft_write(2, "\n");
-//	pthread_mutex_unlock(&program->write_lock);
-//	pthread_mutex_destroy(&program->write_lock);
-//	pthread_mutex_destroy(&program->meal_lock);
-//	pthread_mutex_destroy(&program->dead_lock);
-//	i = 0 - 1;
-//	while (++i < program->philos->num_of_philos)
-//		pthread_mutex_destroy(&forks[i]);
-//	cantalloc_clean();
-//}
-
 // Return the value of dead_flag
 int	is_someone_dead(t_philo *philos)
 {
@@ -62,6 +43,16 @@ int	is_someone_dead(t_philo *philos)
 	dead = *philos->dead;
 	pthread_mutex_unlock(philos->dead_lock);
 	return (dead);
+}
+
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
 }
 
 // Return current timespamt in usec

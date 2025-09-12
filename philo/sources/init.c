@@ -6,12 +6,13 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 16:47:23 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:21:00 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// Copies the program rules in the respective philo's attributes
 static void	set_rules(t_philo *philo, long int *rules)
 {
 	philo->num_of_philos = rules[e_num_of_philos];
@@ -21,6 +22,10 @@ static void	set_rules(t_philo *philo, long int *rules)
 	philo->meals_to_eat = rules[e_meals_to_eat];
 }
 
+// For every philo:
+//
+// Set the philo's ID, initalize the attributes, call set_rules(),
+// and point the pointers to the program's locks and forks mutexes
 void	initialize_philos(t_program *program, t_philo *philos,
 		pthread_mutex_t *forks)
 {
@@ -48,6 +53,7 @@ void	initialize_philos(t_program *program, t_philo *philos,
 	}
 }
 
+// Initialize forks mutexes array
 bool	initialize_forks(pthread_mutex_t *forks, long int *rules)
 {
 	long int	i;
@@ -62,11 +68,12 @@ bool	initialize_forks(pthread_mutex_t *forks, long int *rules)
 	return (true);
 }
 
+// Set the varibles of program structure
 bool	initialize_program(t_program *program, t_philo *philos)
 {
 	program->dead_flag = 0;
 	program->philos = philos;
 	return (pthread_mutex_init(&program->dead_lock, NULL) == 0
-		&& pthread_mutex_init(&program->meal_lock, NULL) == 0
+		&&  pthread_mutex_init(&program->meal_lock, NULL) == 0
 		&& pthread_mutex_init(&program->write_lock, NULL) == 0);
 }

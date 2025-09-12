@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:15:16 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 17:01:43 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:11:25 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ int	main(int argc, char **argv)
 	++argv;
 	if (!input_is_valid(argc, argv, program.rules))
 		return(-1);
-//	printf( "Rules:\n%li\n%li\n%li\n%li\n%li\n",
-//		program.rules[e_num_of_philos],
-//		program.rules[e_time_to_die],
-//		program.rules[e_time_to_eat],
-//		program.rules[e_time_to_sleep],
-//		program.rules[e_meals_to_eat]); // DEBUG
 	philos = malloc(sizeof(t_philo) * program.rules[e_num_of_philos]);
 	if (!philos)
 		return (-1);
@@ -37,10 +31,10 @@ int	main(int argc, char **argv)
 	initialize_program(&program, philos);
 	initialize_forks(forks, program.rules);
 	initialize_philos(&program, philos, forks);
-	//printf("n:%lu\n", program.rules[e_num_of_philos]);
-	//for (unsigned long i = 0; i < program.rules[e_num_of_philos]; i++)
-	//	printf("%i\n", philos[i].id);
 	thread_create(philos);
+	pthread_mutex_destroy(philos->write_lock);
+	pthread_mutex_destroy(philos->meal_lock);
+	pthread_mutex_destroy(philos->dead_lock);
 	
 	return (free(forks), free(philos), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 18:25:59 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 11:52:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ static void	check_last_meal(t_philo *philos)
 		pthread_mutex_unlock(philos->meal_lock);
 		if (starving)
 		{
+			pthread_mutex_lock(philos->write_lock);
 			pthread_mutex_lock(philos->dead_lock);
 			*philos->dead = 1;
+			printf("%lu %i %s\n", get_current_time() - philos->start_time,
+					philos->id, "died");
 			pthread_mutex_unlock(philos->dead_lock);
-			print_message(get_current_time(), &philos[i], "died");
+			pthread_mutex_unlock(philos->write_lock);
 			break ;
 		}
 		i++;
@@ -51,21 +54,20 @@ static int	have_philos_ate(t_philo *philos)
 		pthread_mutex_lock(philos->meal_lock);
 		if (philos[i].meals_eaten < philos->meals_to_eat)
 		{
+			pthread_mutex_unlock(philos->meal_lock);
 			return (false);
 		}
-		pthread_mutex_unlock(philos->meal_lock);	
+		pthread_mutex_unlock(philos->meal_lock);
 		i++;
 	}
-
+//	pthread_mutex_lock(philos->dead_lock);
+//	*philos->dead = 1;
+//	pthread_mutex_unlock(philos->dead_lock);
 	return (true);
 }
 
 void	monitor(t_philo *philos)
 {
-	
-//	pthread_mutex_lock(philos->write_lock);
-//		printf("Entering monitor\n");
-//	pthread_mutex_unlock(philos->write_lock);
 	while(1)
 	{
 		check_last_meal(philos);
