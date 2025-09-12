@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:40:32 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 12:17:13 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:32:30 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct	s_philo
 	int				meals_to_eat;
 
 	t_time			start_time;
-	int				eating;
 	t_time			last_meal;
 	int				meals_eaten;
 	int				*dead;
@@ -52,7 +51,7 @@ typedef struct	s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t	meal_lock;
 }				t_philo;
 	
 typedef struct s_program
@@ -60,7 +59,7 @@ typedef struct s_program
 	long int		rules[MAX_ARGS];
 	int				dead_flag;
 	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	meal_lock;
+	//pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
 	t_philo			*philos;
 }					t_program;
@@ -68,12 +67,12 @@ typedef struct s_program
 
 // Input
 bool	input_is_valid(int argc, char **argv, long int *rules);
-int	ft_usleep(size_t milliseconds);
+int		ft_usleep(size_t milliseconds);
 
 // Init
 bool	initialize_program(t_program *program, t_philo *philos);
 bool	initialize_forks(pthread_mutex_t *forks, long int *rules);
-void	initialize_philos(t_program *program, t_philo *philos, pthread_mutex_t *forks);
+bool	initialize_philos(t_program *program, t_philo *philos, pthread_mutex_t *forks);
 
 // Utils
 t_time	get_current_time(void);

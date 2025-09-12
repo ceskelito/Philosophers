@@ -6,20 +6,20 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:22:11 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/10 17:00:28 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:00:58 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	is_num(char c)
+static bool	is_num(char c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }
 
-static int	is_space(char c)
+static bool	is_space(char c)
 {
 	if (c == ' ' || (c == '\f') || (c == '\n'))
 		return (1);
@@ -51,18 +51,18 @@ static int	philo_atoi(const char *str)
 }
 
 // Check the value of the input parameters
-static int	check_values(int argc, long int *args)
+static bool	are_values_valids(int argc, long int *args)
 {	
 	int	i;
 
 	i = 0;
 	while (i < argc)
 	{
-		if ((args[i] == 0) && (i != e_meals_to_eat))
-			return (-1);
+		if ((args[i] < 0) || ((args[i] == 0) && (i != e_meals_to_eat)))
+			return (false);
 		i++;
 	}
-	return (0);
+	return (true);
 }
 
 // Validates the input parameters, sargves their values in an array
@@ -71,19 +71,15 @@ bool	input_is_valid(int argc, char **argv, long int *rules)
 	int	i;
 
 	if (!(argc == MAX_ARGS || argc == MAX_ARGS - 1))
-	{
-		ft_write(2, "Wrong number of arguments\n\0");
-		return (false);
-	}
+		return (ft_write(2, "Wrong number of arguments\n\0"),
+				false);
+	if (argc != MAX_ARGS)
+		rules[e_meals_to_eat] = -1;
 	i = 0;
 	while (i < argc)
 	{
 		rules[i] = philo_atoi(argv[i]);
 		i++;
 	}
-	if (argc != MAX_ARGS)
-		rules[e_meals_to_eat] = -1;
-	if (!check_values(argc, rules) == 0)
-		return (false);
-	return (true);
+	return (are_values_valids(argc, rules));
 }
