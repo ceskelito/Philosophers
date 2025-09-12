@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 12:53:37 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:29:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ bool	initialize_philos(t_program *program, t_philo *philos,
 	{
 		philos[i].id = i + 1;
 		set_rules(&philos[i], program->rules);
-		philos[i].eating = 0;
 		philos[i].meals_eaten = 0;
 		philos[i].last_meal = get_current_time();
 		philos[i].start_time = get_current_time();

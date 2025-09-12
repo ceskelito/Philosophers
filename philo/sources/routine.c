@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:00:13 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 13:06:56 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:32:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,34 @@ static void	philo_think(t_philo *philo)
 	print_message(get_current_time() - philo->start_time, philo, "is thinking");
 }
 
+// Helper function to reduce the line number
+static void philo_eating_action(t_philo *philo)
+{
+	print_message(get_current_time() - philo->start_time, philo, "is eating");
+	ft_usleep(philo->time_to_eat);
+	philo->meals_eaten += 1;
+	philo->last_meal = get_current_time();
+}
+
 static void	philo_eat(t_philo *philo)
 {
 	pthread_mutex_t	*first;
 	pthread_mutex_t	*second;
 
-
 	if (philo->id == 1)
-		(first = philo->r_fork,
-		 second = philo->l_fork);
+		(first = philo->r_fork, second = philo->l_fork);
 	else
 		(first = philo->l_fork, 
 		second = philo->r_fork);
 	pthread_mutex_lock(first);
 	print_message(get_current_time() - philo->start_time, philo, "has taken a fork");
+	if (first == second)
+		(pthread_mutex_unlock(first),
+		ft_usleep(philo->time_to_die));
 	pthread_mutex_lock(second);
 	print_message(get_current_time() - philo->start_time, philo, "has taken a fork");
 	pthread_mutex_lock(&philo->meal_lock);
-	philo->eating = 1;
-	print_message(get_current_time() - philo->start_time, philo, "is eating");
-	ft_usleep(philo->time_to_eat);
-	philo->meals_eaten += 1;
-	philo->eating = 0;
+	philo_eating_action(philo);
 	pthread_mutex_unlock(&philo->meal_lock);
 	pthread_mutex_unlock(second);
 	pthread_mutex_unlock(first);

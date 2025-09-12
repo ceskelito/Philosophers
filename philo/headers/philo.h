@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 14:40:32 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 12:51:07 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:32:30 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct	s_philo
 	int				meals_to_eat;
 
 	t_time			start_time;
-	int				eating;
 	t_time			last_meal;
 	int				meals_eaten;
 	int				*dead;
