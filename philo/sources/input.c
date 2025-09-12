@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:22:11 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 15:00:58 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:45:33 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	philo_atoi(const char *str)
 
 // Check the value of the input parameters
 static bool	are_values_valids(int argc, long int *args)
-{	
+{
 	int	i;
 
 	i = 0;
@@ -72,7 +72,7 @@ bool	input_is_valid(int argc, char **argv, long int *rules)
 
 	if (!(argc == MAX_ARGS || argc == MAX_ARGS - 1))
 		return (ft_write(2, "Wrong number of arguments\n\0"),
-				false);
+			false);
 	if (argc != MAX_ARGS)
 		rules[e_meals_to_eat] = -1;
 	i = 0;
