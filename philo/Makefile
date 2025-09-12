@@ -1,7 +1,7 @@
 NAME	= philo
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -Iheaders -g 
+CFLAGS	= -Wall -Wextra -Werror -Iheaders
 RM		= rm -f
 MKDIR	= mkdir -p
 
