@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:36:05 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 15:21:38 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:55:41 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	ft_write(int fd, char *str)
 {
 	int	len;
 
-	if(!str)
-		return;
+	if (!str)
+		return ;
 	len = 0;
-	while(str[len] != '\0')
+	while (str[len] != '\0')
 		len++;
 	write(fd, str, len);
 }

@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:37:51 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 14:44:02 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:55:09 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	thread_create(t_philo *philos)
 		}
 		i++;
 	}
-
 	monitor(philos);
 	i = 0;
 	while (i < philos->num_of_philos)
