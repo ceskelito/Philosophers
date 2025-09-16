@@ -47,20 +47,23 @@ static void	philo_think(t_philo *philo)
 // Philosopher eating action
 static void	philo_eat(t_philo *philo)
 {
+	// Limit concurrent attempts to acquire forks
+	sem_wait(philo->limit);
 	sem_wait(philo->forks);
 	print_message(get_current_time() - philo->start_time, philo,
 		"has taken a fork");
 	sem_wait(philo->forks);
 	print_message(get_current_time() - philo->start_time, philo,
 		"has taken a fork");
+	// Release limiter once both forks are taken
+	sem_post(philo->limit);
 	pthread_mutex_lock(&philo->meal_lock);
-	print_message(get_current_time() - philo->start_time, philo, "is eating");
 	philo->last_meal = get_current_time();
+	print_message(get_current_time() - philo->start_time, philo, "is eating");
 	pthread_mutex_unlock(&philo->meal_lock);
 	ft_usleep(philo->time_to_eat);
 	philo->meals_eaten += 1;
-	if (philo->meals_to_eat != -1
-		&& philo->meals_eaten == philo->meals_to_eat)
+	if (philo->meals_to_eat != -1 && philo->meals_eaten == philo->meals_to_eat)
 		sem_post(philo->eat_sem);
 	sem_post(philo->forks);
 	sem_post(philo->forks);

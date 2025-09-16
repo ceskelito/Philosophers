@@ -26,6 +26,7 @@ static void	cleanup_and_exit(t_program *program, int exit_code)
 	sem_unlink("/write");
 	sem_unlink("/forks");
 	sem_unlink("/eat");
+	sem_unlink("/limit");
 	if (program->write_sem)
 		sem_close(program->write_sem);
 	if (program->eat_sem)

@@ -28,7 +28,7 @@
 
 # define MAX_ARGS 5
 
-typedef unsigned long	t_time;
+typedef unsigned long				t_time;
 
 typedef enum e_args
 {
@@ -41,36 +41,38 @@ typedef enum e_args
 
 typedef struct s_philo
 {
-	int				id;
+	int							id;
 
-	int				num_of_philos;
-	t_time			time_to_die;
-	t_time			time_to_eat;
-	t_time			time_to_sleep;
-	int				meals_to_eat;
+	int							num_of_philos;
+	t_time						time_to_die;
+	t_time						time_to_eat;
+	t_time						time_to_sleep;
+	int							meals_to_eat;
 
-	int				meals_eaten;
-	t_time			last_meal;
-	t_time			start_time;
+	int							meals_eaten;
+	t_time						last_meal;
+	t_time						start_time;
 
-	sem_t			*forks;
-	sem_t			*write_sem;
-	sem_t			*eat_sem;
+	sem_t						*forks;
+	sem_t						*write_sem;
+	sem_t						*eat_sem;
+	// Limit concurrent fork acquisition to avoid deadlock
+	sem_t						*limit;
 
-	pthread_t		monitor;
-	pthread_mutex_t	meal_lock;
-}	t_philo;
+	pthread_t					monitor;
+	pthread_mutex_t				meal_lock;
+}t_philo;
 
 typedef struct s_program
 {
-	long int	rules[MAX_ARGS];
-	int			*philos_pid;
+	long int					rules[MAX_ARGS];
+	int							*philos_pid;
 
-	sem_t		*write_sem;
-	sem_t		*eat_sem;
+	sem_t						*write_sem;
+	sem_t						*eat_sem;
 
-	pthread_t	meal_monitor;
-}	t_program;
+	pthread_t					meal_monitor;
+}t_program;
 
 // Input
 bool	input_is_valid(int argc, char **argv, long int *rules);
