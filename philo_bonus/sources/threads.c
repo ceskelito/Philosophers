@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdbool.h>
 
-// Check all the philos have eaten meals_to_eat meals
-void	*have_philos_ate(void *param)	
+// Monitor thread to check if all philosophers have eaten required meals
+void	*have_philos_ate(void *param)
 {
 	t_program	*program;
 	int			i;
@@ -22,7 +21,7 @@ void	*have_philos_ate(void *param)
 	program = param;
 	i = 0;
 	while (i < program->rules[e_num_of_philos])
-	{	
+	{
 		sem_wait(program->eat_sem);
 		i++;
 	}
@@ -30,7 +29,8 @@ void	*have_philos_ate(void *param)
 	sem_wait(program->write_sem);
 	while (i < program->rules[e_num_of_philos])
 	{
-		kill(program->philos_pid[i], SIGTERM);
+		if (program->philos_pid[i] > 0)
+			kill(program->philos_pid[i], SIGTERM);
 		i++;
 	}
 	sem_post(program->write_sem);

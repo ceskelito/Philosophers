@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-// Lock the writing mutex and print the log followed by a new line
+// Lock the writing semaphore and print the log with timestamp
 void	print_message(t_time time, t_philo *philo, char *message)
 {
 	sem_wait(philo->write_sem);
@@ -20,29 +20,18 @@ void	print_message(t_time time, t_philo *philo, char *message)
 	sem_post(philo->write_sem);
 }
 
-//// Return the value of dead_flag
-//int	is_philo_dead(t_philo *philo)
-//{
-//	int	dead;
-//
-//	pthread_mutex_lock(philo->dead_lock);
-//	dead = philo->dead;
-//	pthread_mutex_unlock(philo->dead_lock);
-//	return (dead);
-//}
-
+// Custom usleep implementation to avoid busy waiting
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
 
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
-		usleep(100);
+		usleep(500);
 	return (0);
 }
 
-
-// write() which calculate the string len
+// Write function that calculates string length automatically
 void	ft_write(int fd, char *str)
 {
 	int	len;
@@ -55,7 +44,7 @@ void	ft_write(int fd, char *str)
 	write(fd, str, len);
 }
 
-// Return current timespamt in usec
+// Return current timestamp in milliseconds
 t_time	get_current_time(void)
 {
 	struct timeval	tv;

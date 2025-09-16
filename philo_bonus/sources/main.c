@@ -12,13 +12,6 @@
 
 #include "philo.h"
 
-static void	print_info(t_philo *philo)
-{
-	sem_wait(philo->write_sem);
-	printf("PID: %d\nPhilo: %d\n------\n", getpid(), philo->id);
-	sem_post(philo->write_sem);
-}
-
 static void	cleanup_and_exit(t_program *program, int exit_code)
 {
 	int	i;
@@ -70,7 +63,6 @@ static void	philos_birth(t_program *program)
 
 int	main(int argc, char **argv)
 {
-	int			i;
 	t_program	program;
 
 	if (!input_is_valid(--argc, ++argv, program.rules))
@@ -78,28 +70,11 @@ int	main(int argc, char **argv)
 	if (!initialize_program(&program))
 		return (printf("Program initialization failed\n"), 1);
 	philos_birth(&program);
-
 	if (program.rules[e_meals_to_eat] > -1)
 	{
 		pthread_create(&program.meal_monitor, NULL, have_philos_ate, &program);
 		pthread_detach(program.meal_monitor);
 	}
-	
 	waitpid(-1, NULL, 0);
-	
-	sem_wait(program.write_sem);
-	i = 0;
-	while (i < program.rules[e_num_of_philos])
-	{
-		kill(program.philos_pid[i], SIGTERM);
-		i++;
-	}
-	sem_post(program.write_sem);
-	sem_unlink("/write");
-	sem_unlink("/forks");
-	sem_unlink("/eat");
-	sem_close(program.write_sem);
-    sem_close(program.eat_sem);
-	return (free(program.philos_pid), 0);
-
+	cleanup_and_exit(&program, 0);
 }
