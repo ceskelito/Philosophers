@@ -1,14 +1,14 @@
 NAME	= philo_bonus
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -Iheaders
+CFLAGS	= -Wall -Wextra -Werror -Iheaders -g
 RM		= rm -f
 MKDIR	= mkdir -p
 
 SRCS_DIR = sources
 OBJS_DIR = objs
 
-FILES_NAME = main input init utils #threads monitor routine
+FILES_NAME = main input init utils routine threads #monitor 
 
 SRCS	= $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(FILES_NAME)))
 OBJS	= $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(FILES_NAME)))

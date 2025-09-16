@@ -6,81 +6,100 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 15:15:16 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/15 18:41:11 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:46:30 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_info(t_philo *philo)
+static void	print_info(t_philo *philo)
 {
+	sem_wait(philo->write_sem);
 	printf("PID: %d\nPhilo: %d\n------\n", getpid(), philo->id);
+	sem_post(philo->write_sem);
 }
 
-void	*philos_birth(void *param)
+static void	cleanup_and_exit(t_program *program, int exit_code)
 {
-	t_program	*program;
-	t_philo		philo;
-	int			n_philos;
-	int			i;
-	program = (t_program *) param;
+	int	i;
+
+	i = 0;
+	while (i < program->rules[e_num_of_philos])
+	{
+		if (program->philos_pid[i] > 0)
+			kill(program->philos_pid[i], SIGTERM);
+		i++;
+	}
+	sem_unlink("/write");
+	sem_unlink("/forks");
+	sem_unlink("/eat");
+	if (program->write_sem)
+		sem_close(program->write_sem);
+	if (program->eat_sem)
+		sem_close(program->eat_sem);
+	free(program->philos_pid);
+	exit(exit_code);
+}
+
+static void	philos_birth(t_program *program)
+{
+	t_philo	philo;
+	int		n_philos;
+	int		i;
+
 	n_philos = program->rules[e_num_of_philos];
-	//
-	// Processes creation
-	//
-	// Due the fact the main program should not act as a philo
-	// i think there's the need to create a thread in wich
-	// do the fork() system call
-	//
 	i = 0;
 	while (i < n_philos)
 	{
-		if (program->philos_pid[i] > 0)
-		{
-			program->philos_pid[i] = fork();
-		}
+		program->philos_pid[i] = fork();
 		if (program->philos_pid[i] < 0)
 		{
-			sleep(500);
-			// Free resources and exit
+			ft_write(2, "Fork failed\n");
+			cleanup_and_exit(program, 1);
 		}
 		if (program->philos_pid[i] == 0)
 		{
-			philo.id = i + 1;
-			philo.forks = sem_open("/forks", O_CREAT | O_EXCL, 0666, n_philos);
-			//philo.sem_write = sem_open("/write", O_CREAT | O_EXCL, 0666, 1);
-			
-			// if !forks || sem_write : exit
-	
-			print_info(&philo);
-			return (NULL);
+			if (!initialize_philo(&philo, program->rules, i + 1))
+				exit(1);
+			routine(&philo);
+			exit(0);
 		}
 		i++;
 	}
-	return (NULL);
 }
 
 int	main(int argc, char **argv)
 {
+	int			i;
 	t_program	program;
-	t_philo		philos_template;
 
-	--argc;
-	++argv;
-	if (!input_is_valid(argc, argv, program.rules))
+	if (!input_is_valid(--argc, ++argv, program.rules))
 		return (-1);
-	initialize_program(&program, &philos_template);
-	initialize_philos_template(&philos_template, program.rules);
+	if (!initialize_program(&program))
+		return (printf("Program initialization failed\n"), 1);
 	philos_birth(&program);
+
+	if (program.rules[e_meals_to_eat] > -1)
+	{
+		pthread_create(&program.meal_monitor, NULL, have_philos_ate, &program);
+		pthread_detach(program.meal_monitor);
+	}
+	
 	waitpid(-1, NULL, 0);
-	//sem_wait(&program.sem_write);
-	int i = 0;
+	
+	sem_wait(program.write_sem);
+	i = 0;
 	while (i < program.rules[e_num_of_philos])
 	{
 		kill(program.philos_pid[i], SIGTERM);
 		i++;
 	}
-	//sem_post(&program.sem_write);
-	return (0);
+	sem_post(program.write_sem);
+	sem_unlink("/write");
+	sem_unlink("/forks");
+	sem_unlink("/eat");
+	sem_close(program.write_sem);
+    sem_close(program.eat_sem);
+	return (free(program.philos_pid), 0);
 
 }

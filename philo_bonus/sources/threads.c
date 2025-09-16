@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 14:37:51 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/12 16:55:09 by rceschel         ###   ########.fr       */
+/*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
+/*   Updated: 2025/09/16 16:00:32 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdbool.h>
 
-void	thread_create(t_philo *philos)
+// Check all the philos have eaten meals_to_eat meals
+void	*have_philos_ate(void *param)	
 {
-	int	i;
+	t_program	*program;
+	int			i;
 
+	program = param;
 	i = 0;
-	while (i < philos->num_of_philos)
-	{
-		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]) != 0)
-		{
-			while (--i, i >= 0)
-				pthread_join(philos[i].thread, NULL);
-			return ;
-		}
+	while (i < program->rules[e_num_of_philos])
+	{	
+		sem_wait(program->eat_sem);
 		i++;
 	}
-	monitor(philos);
 	i = 0;
-	while (i < philos->num_of_philos)
+	sem_wait(program->write_sem);
+	while (i < program->rules[e_num_of_philos])
 	{
-		pthread_join(philos[i].thread, NULL);
-		pthread_mutex_destroy(&philos[i].meal_lock);
+		kill(program->philos_pid[i], SIGTERM);
 		i++;
 	}
-	pthread_mutex_destroy(philos->write_lock);
-	pthread_mutex_destroy(philos->dead_lock);
+	sem_post(program->write_sem);
+	return (NULL);
 }
