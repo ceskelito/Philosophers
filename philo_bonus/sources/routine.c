@@ -6,10 +6,9 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:08:01 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/17 12:30:49 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:47:24 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo.h"
 
@@ -54,8 +53,8 @@ void	routine(t_philo *philo)
 {
 	pthread_create(&philo->monitor, NULL, check_last_meal, philo);
 	pthread_detach(philo->monitor);
-//	if (philo->id % 2 == 0)
-//		ft_usleep(philo->time_to_eat / 2);
+	if (philo->id % 2 == 0)
+		ft_usleep(philo->time_to_eat / 2);
 	while (1)
 	{
 		philo_think(philo);

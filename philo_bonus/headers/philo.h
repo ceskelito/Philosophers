@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:20:35 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/17 12:27:50 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:44:39 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	print_message(t_time time, t_philo *philo, char *message);
 
 // Philosophers routine and monitors
 void	routine(t_philo *philo);
-void	*check_last_meal(void *pointer); // Thread from every philo process who monitor itself
+void	*check_last_meal(void *pointer); // Thread from every philo process
 void	*have_philos_ate(void *param); // Thread from main process
 
 #endif

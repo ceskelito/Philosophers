@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/17 12:30:41 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:45:23 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	*check_last_meal(void *pointer)
 			sem_post(philo->write_sem);
 			exit(1);
 		}
-		//usleep(500);
 	}
 	return (NULL);
 }
-

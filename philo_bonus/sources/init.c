@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/17 12:30:25 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:49:11 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static void	set_rules(t_philo *philo, long int *rules)
 
 static void	print_error(char *str, sem_t *sem)
 {
+	sem_unlink("/forks");
+	sem_unlink("/write");
+	sem_unlink("/eat");
 	if (sem && sem != SEM_FAILED)
 	{
 		sem_wait(sem);
@@ -51,9 +54,6 @@ bool	initialize_philo(t_philo *philo, long int *rules, int id)
 	if (philo->forks == SEM_FAILED || philo->write_sem == SEM_FAILED
 		|| philo->eat_sem == SEM_FAILED)
 	{
-		sem_unlink("/forks");
-		sem_unlink("/write");
-		sem_unlink("/eat");
 		print_error("Failed init semaphores\n", NULL);
 		return (false);
 	}
