@@ -1,2 +1,6 @@
 philo!
+philo_bonus!
+*.md
 *.o
+*/LazyPhilosophersTester/
+*/objs/
