@@ -6,14 +6,14 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:36:05 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/16 16:39:52 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:31:29 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 // Lock the writing semaphore and print the log with timestamp
-void	print_message(t_time time, t_philo *philo, char *message)
+inline void	print_message(t_time time, t_philo *philo, char *message)
 {
 	sem_wait(philo->write_sem);
 	printf("%lu %i %s\n", time, philo->id, message);
@@ -21,7 +21,7 @@ void	print_message(t_time time, t_philo *philo, char *message)
 }
 
 // Custom usleep implementation to avoid busy waiting
-int	ft_usleep(size_t milliseconds)
+inline int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
 
@@ -32,7 +32,7 @@ int	ft_usleep(size_t milliseconds)
 }
 
 // Write function that calculates string length automatically
-void	ft_write(int fd, char *str)
+inline void	ft_write(int fd, char *str)
 {
 	int	len;
 
@@ -45,7 +45,7 @@ void	ft_write(int fd, char *str)
 }
 
 // Return current timestamp in milliseconds
-t_time	get_current_time(void)
+inline t_time	get_current_time(void)
 {
 	struct timeval	tv;
 

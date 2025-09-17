@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:05:55 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/16 16:46:41 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:30:25 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ bool	initialize_philo(t_philo *philo, long int *rules, int id)
 	philo->forks = sem_open("/forks", O_CREAT, 0666, n_philos);
 	philo->write_sem = sem_open("/write", O_CREAT, 0666, 1);
 	philo->eat_sem = sem_open("/eat", O_CREAT, 0666, 0);
-	philo->limit = sem_open("/limit", O_CREAT, 0666, (n_philos > 1) ? n_philos - 1 : 1);
 	if (philo->forks == SEM_FAILED || philo->write_sem == SEM_FAILED
-		|| philo->eat_sem == SEM_FAILED || philo->limit == SEM_FAILED)
+		|| philo->eat_sem == SEM_FAILED)
 	{
 		sem_unlink("/forks");
 		sem_unlink("/write");
 		sem_unlink("/eat");
-		sem_unlink("/limit");
 		print_error("Failed init semaphores\n", NULL);
 		return (false);
 	}
@@ -75,7 +73,6 @@ bool	initialize_program(t_program *program)
 	sem_unlink("/eat");
 	sem_unlink("/write");
 	sem_unlink("/forks");
-	sem_unlink("/limit");
 	program->eat_sem = sem_open("/eat", O_CREAT, 0666, 0);
 	program->write_sem = sem_open("/write", O_CREAT, 0666, 1);
 	if (program->write_sem == SEM_FAILED || program->eat_sem == SEM_FAILED)

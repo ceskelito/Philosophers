@@ -6,7 +6,7 @@
 /*   By: rceschel <rceschel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:35:03 by rceschel          #+#    #+#             */
-/*   Updated: 2025/09/16 16:00:32 by rceschel         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:30:41 by rceschel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,29 @@ void	*have_philos_ate(void *param)
 	sem_post(program->write_sem);
 	return (NULL);
 }
+
+// Monitor thread to check if philosopher is starving
+void	*check_last_meal(void *pointer)
+{
+	t_philo	*philo;
+	t_time	time_from_meal;
+
+	philo = pointer;
+	while (1)
+	{
+		pthread_mutex_lock(&philo->meal_lock);
+		time_from_meal = get_current_time() - philo->last_meal;
+		pthread_mutex_unlock(&philo->meal_lock);
+		if (time_from_meal >= philo->time_to_die)
+		{
+			sem_wait(philo->write_sem);
+			printf("%lu %i died\n", get_current_time() - philo->start_time,
+				philo->id);
+			sem_post(philo->write_sem);
+			exit(1);
+		}
+		//usleep(500);
+	}
+	return (NULL);
+}
+
