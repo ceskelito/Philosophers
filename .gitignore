@@ -1,6 +1,7 @@
-philo!
-philo_bonus!
+philo/philo
+philo_bonus/philo_bonus
 *.md
 *.o
 */LazyPhilosophersTester/
 */objs/
+_codeql_detected_source_root
