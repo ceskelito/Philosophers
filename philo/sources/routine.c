@@ -18,14 +18,16 @@ static void	philo_think(t_philo *philo)
 }
 
 // Helper function to reduce the line number
+// last_meal is set at the START of eating so the monitor can accurately
+// detect death while the philosopher is eating
 static void	philo_eating_action(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_lock);
+	philo->last_meal = get_current_time();
+	philo->meals_eaten += 1;
+	pthread_mutex_unlock(&philo->meal_lock);
 	print_message(get_current_time() - philo->start_time, philo, "is eating");
 	ft_usleep(philo->time_to_eat);
-	philo->meals_eaten += 1;
-	philo->last_meal = get_current_time();
-	pthread_mutex_unlock(&philo->meal_lock);
 }
 
 static void	philo_eat(t_philo *philo)
