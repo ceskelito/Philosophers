@@ -56,6 +56,7 @@ void	*check_last_meal(void *pointer)
 				sem_wait(philo->write_sem);
 				printf("%lu %i died\n", get_current_time() - philo->start_time,
 					philo->id);
+				sem_post(philo->write_sem);
 				exit(1);
 			}
 			else
