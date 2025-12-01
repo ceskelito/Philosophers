@@ -51,12 +51,17 @@ void	*check_last_meal(void *pointer)
 		pthread_mutex_unlock(&philo->meal_lock);
 		if (time_from_meal >= philo->time_to_die)
 		{
-			sem_wait(philo->write_sem);
-			printf("%lu %i died\n", get_current_time() - philo->start_time,
-				philo->id);
-			sem_post(philo->write_sem);
-			exit(1);
+			if (sem_trywait(philo->dead_sem) == 0)
+			{
+				sem_wait(philo->write_sem);
+				printf("%lu %i died\n", get_current_time() - philo->start_time,
+					philo->id);
+				exit(1);
+			}
+			else
+				exit(1);
 		}
+		usleep(500);
 	}
 	return (NULL);
 }

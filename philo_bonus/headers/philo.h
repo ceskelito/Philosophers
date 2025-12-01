@@ -56,6 +56,7 @@ typedef struct s_philo
 	sem_t			*forks;
 	sem_t			*write_sem;
 	sem_t			*eat_sem;
+	sem_t			*dead_sem;
 
 	pthread_t		monitor;
 	pthread_mutex_t	meal_lock;
@@ -68,6 +69,7 @@ typedef struct s_program
 
 	sem_t		*write_sem;
 	sem_t		*eat_sem;
+	sem_t		*dead_sem;
 
 	pthread_t	meal_monitor;
 }	t_program;
